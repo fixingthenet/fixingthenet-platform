@@ -41,9 +41,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_recipe "fxn-docker::install"
       chef.add_recipe "fxn-docker::vagrant-user"
       chef.add_recipe "fxn-rancher::server"
-      chef.add_recipe "fxn-rancher::server-setup"
-
       chef.add_recipe "fxn-rancher::agent"
+      chef.add_recipe "fxn-rancher::server-setup"
       chef.add_recipe "fxn-rancher::cli"
     end
 
