@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.memory = FXN_BOX_MEMORY
-    vb.cpus = FXN_VOX_CPU
+    vb.cpus = FXN_BOX_CPU
   end
 
   config.omnibus.chef_version = '12.18.31'
