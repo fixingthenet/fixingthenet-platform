@@ -4,7 +4,7 @@
 FXN_BOX_IP=ENV["FXN_BOX_IP"] || "192.168.33.11"
 FXN_BOX_HOSTNAME=ENV["FXN_BOX_HOSTNAME"] || "fxn-dev"
 FXN_BOX_DISCSIZE=ENV["FXN_BOX_DISCSIZE"] || "50GB"
-FXN_BOX_MEMORY=ENV["FXN_VM_MEMORY"] || 5800
+FXN_BOX_MEMORY=ENV["FXN_VM_MEMORY"] || 2048
 FXN_BOX_CPU=ENV["FXN_BOX_CPU"] || 2
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
@@ -61,8 +61,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
            "url" => "http://#{FXN_BOX_IP}:8080",
            :auth => "key:secret",
            "project_id" => "1a5", #that's always the first project's id
-           "registries" => [],
-           "catalogs" => []
+           "registries" => [
+           ],
+           "catalogs" => [
+             "FXN=https://github.com/fixingthenet/fxnet-rancher-catalog.git"
+           ]
           },
         }
     }
