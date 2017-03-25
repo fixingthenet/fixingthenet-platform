@@ -6,7 +6,8 @@ Sets up a dev environment for Fixingthenet microservices.
 Setting up a development environment is easy:
  * install virtualbox 5.1
  * install vagrant
- * checkout this repo and run ```vagrant up```
+ * checkout this repo and run ```install.sh && vagrant up```
+
 
 Done. 
 
