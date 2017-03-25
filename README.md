@@ -12,7 +12,7 @@ Done.
 
 Visit http://192.168.33.11:8080/env/1a5/catalog?catalogId=FXN install the
 following services:
- * postgreslq 9.4
+ * postgresql 9.4
  * FXN auth
 
 # Developing the platform
@@ -26,6 +26,7 @@ cd /vagrant/code
 git clone ...the app you want to develop...
 TBD: restart the service you want to develop with /code mounted on the repo
 TBD: develop your app
+```
 
 # Problems
 
@@ -34,4 +35,3 @@ TBD: develop your app
 
 
 
-```
