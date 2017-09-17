@@ -3,7 +3,6 @@
 
 FXN_BOX_IP=ENV["FXN_BOX_IP"] || "192.168.33.11"
 FXN_BOX_HOSTNAME=ENV["FXN_BOX_HOSTNAME"] || "fxn-dev"
-FXN_BOX_DISCSIZE=ENV["FXN_BOX_DISCSIZE"] || "50GB"
 FXN_BOX_MEMORY=ENV["FXN_VM_MEMORY"] || 2048
 FXN_BOX_CPU=ENV["FXN_BOX_CPU"] || 2
 
@@ -13,8 +12,8 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = FXN_BOX_HOSTNAME
-  config.vm.box = "bento/ubuntu-16.04"
-  config.disksize.size=FXN_BOX_DISCSIZE
+  config.vm.box = "fxnet/dev-ubuntu1604"
+  config.vm.box_version = "1.0.0"
   config.vm.box_check_update = false
   config.vm.network "private_network", ip: FXN_BOX_IP
 
@@ -38,8 +37,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         chef.add_recipe recipe
       end
     else
-      chef.add_recipe "fxn-docker::install"
-      chef.add_recipe "fxn-docker::vagrant-user"
+#      chef.add_recipe "fxn-docker::install"
+#      chef.add_recipe "fxn-docker::vagrant-user"
       chef.add_recipe "fxn-rancher::server"
       chef.add_recipe "fxn-rancher::agent"
       chef.add_recipe "fxn-rancher::server-setup"
@@ -57,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         
         "fxn-rancher" => {
           "server" => {
-           "version" => "1.5.1",
+           "version" => "1.6.9",
            "url" => "http://#{FXN_BOX_IP}:8080",
            :auth => "key:secret",
            "project_id" => "1a5", #that's always the first project's id

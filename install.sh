@@ -1,6 +1,6 @@
 #!/bin/bash
 
 vagrant plugin install vagrant-omnibus
-vagrant plugin install vagrant-disksize
+#vagrant plugin install vagrant-disksize
 
 

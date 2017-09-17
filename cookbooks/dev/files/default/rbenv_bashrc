@@ -1,0 +1,11 @@
+if [ -z "$RBENV_ROOT" ]; then
+    RBENV_ROOT=$HOME/.rbenv
+fi
+
+if [ -d $RBENV_ROOT ] ; then
+  export RUBY_BUILD_CACHE_PATH=true
+  export PATH="$RBENV_ROOT/bin:$PATH"
+  export RUBY_BUILD_CACHE_PATH="$RBENV_ROOT/downloads"
+  eval "$(rbenv init -)"
+fi
+

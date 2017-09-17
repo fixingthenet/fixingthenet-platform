@@ -1,3 +1,4 @@
-code/*
 !.keep
+code/*
 .vagrant
+packer/output/*

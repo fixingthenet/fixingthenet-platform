@@ -1,0 +1,3 @@
+#! /bin/bash
+
+packer build -only=virtualbox-ovf -var-file=ubuntu1604.json ubuntu.json
