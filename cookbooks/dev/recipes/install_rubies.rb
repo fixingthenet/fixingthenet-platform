@@ -1,4 +1,4 @@
-%w(libssl-dev libreadline-dev zlib1g-dev).each do |pkg|
+%w(build-essential libssl-dev libreadline-dev zlib1g-dev bzip2).each do |pkg|
   package pkg
 end
 

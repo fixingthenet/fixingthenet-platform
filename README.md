@@ -4,17 +4,14 @@ Sets up a dev environment for Fixingthenet microservices.
 
 # Setup
 Setting up a development environment is easy:
- * install virtualbox 5.1
+ * install docker 
  * install vagrant
  * checkout this repo and run ```install.sh && vagrant up```
 
 
 Done. 
 
-Visit http://192.168.33.11:8080/env/1a5/catalog?catalogId=FXN install the
-following services:
- * postgresql 9.4
- * FXN auth
+Visit http://172.17.0.1:8080/
 
 # Developing the platform
 
@@ -29,10 +26,8 @@ TBD: restart the service you want to develop with /code mounted on the repo
 TBD: develop your app
 ```
 
-# Problems
 
- * adding gems
- * 
+
 
 
 
