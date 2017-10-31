@@ -30,12 +30,18 @@ ruby_block 'rancher agent setup' do
     end until valid_json
     raise "Rancher server not running" if !valid_json
 	  cluster_id = parsed_json["data"][0]["id"]
+    cluster_json=nil
+    max=0
+    loop do
+	    cluster_json = `curl -s -u #{auth} #{endpoint}/v3/clusters/#{cluster_id}`
+	    cluster_json = JSON.parse(cluster_json)
+	    Chef::Log.info("got: #{cluster_json}")
+      break if cluster_json["registrationToken"] || max > 500
+	    max += 1
+      sleep 1
+    end
 
-	  cluster_json = `curl -s -u #{auth} #{endpoint}/v3/clusters/#{cluster_id}`
-	  cluster_json = JSON.parse(cluster_json)
-	  Chef::Log.info("got: #{cluster_json}")
-
-	  command = cluster_json["registrationToken"]["hostCommand"]
+    command = cluster_json["registrationToken"]["hostCommand"]
     Chef::Log.info("got registration: #{command}")
 
 	  Chef::Log.info "Installing Agent with: #{command}"
