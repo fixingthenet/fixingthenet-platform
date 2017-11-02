@@ -1,0 +1,5 @@
+= fxnet
+
+Generate this with
+    fxnet rdoc
+After you have described your command line interface
