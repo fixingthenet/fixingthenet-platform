@@ -1,25 +1,21 @@
 #!/usr/bin/env ruby
 require 'gli'
-begin # XXX: Remove this begin/rescue before distributing your app
-require 'fxnet'
-rescue LoadError
-  STDERR.puts "In development, you need to use `bundle exec bin/fxnet` to run your app"
-  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
-  STDERR.puts "Feel free to remove this message from bin/fxnet now"
-  exit 64
-end
+require_relative '../lib/fxnet/cli'
 
 include GLI::App
 
 program_desc 'Managing your FXNET architecture'
 
-version Fxnet::VERSION
+version Fxnet::Cli::VERSION
 
 subcommand_option_handling :normal
 arguments :strict
 
 desc 'verbose'
 switch [:v,:verbose]
+desc 'environment'
+switch [:e,:environment]
+
 
 #desc 'Describe some flag here'
 #default_value 'the default'

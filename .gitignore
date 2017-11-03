@@ -3,3 +3,4 @@ code/*
 .vagrant
 packer/output/*
 host/node/*
+*~
