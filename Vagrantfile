@@ -39,8 +39,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               ["dev::fix_tmp",
                "infra::update_packages",
                "infra::install_packages",
-               "dev::install_rbenv",
-               "dev::install_rubies",
+#               "dev::install_rbenv",
+#               "dev::install_rubies",
                "fxn-docker::install",
                "infra::node",
                "fxn-rancher::server",
@@ -75,21 +75,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "versions" => [
           {
             "ruby" => "2.4.1",
-            "gem" => "2.6.12",
-            "bundler" => "1.15.3"
+            "gem" => "2.7.2",
+            "global" => true,
+            "bundler" => "1.16.0"
           }
         ]
       },
       "fxn-rancher" => {
         "server" => {
-          "version" => "v2.0.0-alpha10",
+#          "version" => "v2.0.0-alpha10", #not yet
+          "version" => "v1.6.10",
           "url" => "http://#{BOX_IP}:8080",
           :auth => "key:secret",
           "project_id" => "1a5", #that's always the first project's id
           "registries" => [
           ],
           "catalogs" => [
-            "FXN=https://github.com/fixingthenet/fxnet-rancher-catalog.git"
+#            "FXN=https://github.com/fixingthenet/fxnet-rancher-catalog.git"
           ]
         },
       }

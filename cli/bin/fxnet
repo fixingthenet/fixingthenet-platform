@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require 'gli'
 require_relative '../lib/fxnet/cli'
-
 include GLI::App
 
 program_desc 'Managing your FXNET architecture'
@@ -13,8 +12,14 @@ arguments :strict
 
 desc 'verbose'
 switch [:v,:verbose]
-desc 'environment'
-switch [:e,:environment]
+
+desc 'Environment'
+default_value 'dev'
+flag [:e,:environment]
+
+desc 'Configfile'
+default_value '~/.fxnet/config.rb'
+flag [:c,:config]
 
 
 #desc 'Describe some flag here'
@@ -28,21 +33,16 @@ command :deploy do |c|
   #c.desc 'Describe a switch to deploy'
   #c.switch :s
 
-  c.desc 'Environment'
-  c.default_value 'dev'
-  c.flag [:e,:environment]
-
   c.action do |global_options,options,args|
-    # Your command logic here
-
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
-
-    puts "deploy command ran #{global_options},#{options},#{args}"
+    require_relative '../lib/fxnet/platform/release'
+    Fxnet::Platform::Release.run(args, options, global_options)
   end
 end
 
 pre do |global,command,options,args|
+  Fxnet::Platform::Config.read(config_file: global[:config])
+  Fxnet::Platform.config.env=global[:environment]
+
   # Pre logic here
   # Return true to proceed; false to abort and not call the
   # chosen command

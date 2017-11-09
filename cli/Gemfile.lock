@@ -4,7 +4,7 @@ PATH
     fxnet-cli (0.0.1)
       gli (~> 2.0)
       hashie (~> 3.5)
-      orchparty (= 1.2.1)
+      orchparty (= 1.2.2)
 
 GEM
   remote: https://rubygems.org/
@@ -44,7 +44,7 @@ GEM
     hashie (3.5.6)
     multi_json (1.12.2)
     multi_test (0.1.2)
-    orchparty (1.2.1)
+    orchparty (1.2.2)
       gli (~> 2.16.0)
       hashie (~> 3.5.6)
     rake (12.2.1)

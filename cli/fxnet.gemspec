@@ -20,6 +20,7 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rdoc')
   s.add_development_dependency('aruba')
   s.add_runtime_dependency('gli','~>2.0')
-  s.add_runtime_dependency "orchparty", "1.2.1"
+  s.add_runtime_dependency "orchparty", "1.2.2"
+  s.add_runtime_dependency "orchparty-rancher", "0.0.1"
   s.add_runtime_dependency "hashie", "~>3.5"
 end

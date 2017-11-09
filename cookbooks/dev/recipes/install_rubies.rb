@@ -23,5 +23,10 @@ node["rubies"]["versions"].each do |version|
     code as_user(node["rubies"]["user"], "rbenv shell #{version["ruby"]} && gem install bundler -v #{version["bundler"]}")
     action :run
   end
-  
+  if version["global"]
+    bash "set global": #{version["ruby"]}" do
+      code as_user(node["rubies"]["user"], "rbenv global  #{version["ruby"]}")
+      action :run
+    end
+  end  
 end
