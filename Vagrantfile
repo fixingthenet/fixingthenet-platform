@@ -15,6 +15,7 @@ File.write(PROJECT_DIR.join("host","node","dev_project_base"),PROJECT_DIR)
 puts "BOX_NAME: '#{BOX_NAME}' IMAGE: '#{BOX_IMAGE}' IP: '#{BOX_IP}'"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+ config.ssh.forward_agent=true
  config.vm.hostname = BOX_NAME
  config.vm.provider "docker" do |dckr|
    dckr.image = BOX_IMAGE
@@ -39,8 +40,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               ["dev::fix_tmp",
                "infra::update_packages",
                "infra::install_packages",
-#               "dev::install_rbenv",
-#               "dev::install_rubies",
+               "dev::install_rbenv",
+               "dev::install_rubies",
                "fxn-docker::install",
                "infra::node",
                "fxn-rancher::server",

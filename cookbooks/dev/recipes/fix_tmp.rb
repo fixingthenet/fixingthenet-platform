@@ -1,3 +1,3 @@
 directory '/tmp' do
-  mode '0777'
+  mode '7777'
 end

@@ -44,13 +44,12 @@ ruby_block 'rancher agent setup' do
 	state_json = {}
         
 	loop do 
-		sleep 10
-		state_json = `curl -s -u #{auth} -X GET #{endpoint}/v1/registrationtokens/#{registration_token_id}`
-		Chef::Log.info("curl -s -u #{auth} -X GET #{endpoint}/v1/registrationtokens/#{registration_token_id}")
-		Chef::Log.info("got state_json: #{state_json}")
-		state_json = JSON.parse(state_json)		
-		break if  state_json["state"] == "active"
-	  	
+          sleep 10
+	  state_json = `curl -s -u #{auth} -X GET #{endpoint}/v1/registrationtokens/#{registration_token_id}`
+	  Chef::Log.info("curl -s -u #{auth} -X GET #{endpoint}/v1/registrationtokens/#{registration_token_id}")
+	  Chef::Log.info("got state_json: #{state_json}")
+	  state_json = JSON.parse(state_json)		
+	  break if  state_json["state"] == "active"
 	end
 	
 	command = state_json["command"]
@@ -61,40 +60,19 @@ ruby_block 'rancher agent setup' do
 	# -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.0.2 \
 	# https://staging-rancher.metoda.com/v1/scripts/314204A689040E0A463E:1470304800000:brpkMGlsyWGsAD9dF3pyFS0Gm7c
 
-        #awsopsworks chef12 support
-	instance = (search("aws_opsworks_instance", "self:true").first rescue nil) # in case of local install
-	
-        if instance
-          Chef::Log.info("opsworks instance: #{instance} in #{instance["layer_ids"]}")
-         labels=search("aws_opsworks_layer").map do |layer| # all layers
-             layer_name=layer["name"]
-             if instance["layer_ids"].include?(layer["layer_id"]) # only add labels for layers we have
-                if layer_name=~/rancher-label-(.*)/
-                  "com.metoda.host.#{$1}=true"
-                end
-             else
-               nil
-             end
-           end.compact
+        private_ip=File.read("/node/private_ip").strip
+        agent_private_ip ="-e CATTLE_AGENT_IP=#{private_ip}"
+        labels=[]
+        joined_labels=''
+#        labels = labels.push("io.rancher.host.external_dns_ip=#{public_ip}")
+#        labels = labels.push("com.metoda.host.network=private")
 
-         public_ip=`curl -s -f http://169.254.169.254/latest/meta-data/public-ipv4`
-         private_ip ="-e CATTLE_AGENT_IP=" + instance['private_ip']
-         
-         unless public_ip.empty?
-           labels = labels.push("io.rancher.host.external_dns_ip=#{public_ip}")
-         else
-           labels = labels.push("com.metoda.host.network=private")
-         end
-
-         unless labels.empty?
-           joined_labels=labels.join("&")
-           command=command.gsub("-d", %{-d -e CATTLE_HOST_LABELS='#{joined_labels}' #{private_ip}} )
-         else
-           command=command.gsub("-d", %{-d #{private_ip}} )
-         end
-        end
-	Chef::Log.info "Installing Agent with: #{command}"
-	`#{command}` 
+    unless labels.empty?
+      joined_labels="-e CATTLE_HOST_LABELS='#{labels.join("&")}'"
+    end  
+    command=command.gsub("--rm", %{--rm #{joined_labels} #{agent_private_ip}} )
+    Chef::Log.info "Installing Agent with: #{command}"
+    `#{command}` 
   end
   action :run
 end
