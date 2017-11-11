@@ -6,7 +6,8 @@ Sets up a dev environment for Fixingthenet microservices.
 Setting up a development environment is easy:
  * install docker 
  * install vagrant
- * checkout this repo and run ```install.sh && vagrant up```
+ * make sure your uid is 1000 !
+ * checkout this repo and run ```install.sh && vagrant up  -provider=docker```
 
 
 Done. 
