@@ -13,9 +13,9 @@ module Fxnet
         stack_path=catalog.join('stacks',stack_name)
         bash_cmd=["cd #{stack_path}"]
 
-        bash_cmd << "GLI_DEBUG=true ENV=#{env} orchparty generate no_rancher_v2 -f stack.rb -o docker-compose.yml -a #{stack_name}"
-        bash_cmd << "GLI_DEBUG=true ENV=#{env} orchparty generate rancher_v2 -f stack.rb -o rancher-compose.yml -a #{stack_name}"
+        bash_cmd << "GLI_DEBUG=true ENV=#{env} orchparty generate rancher_v2 -f stack.rb -d docker-compose.yml -r rancher-compose.yml -a #{stack_name}"
         bash_cmd << "cp docker-compose.yml docker-compose-#{env}.yml"
+        bash_cmd << "cp rancher-compose.yml rancher-compose-#{env}.yml"
         puts `#{bash_cmd.join(' && ')}`
 
       end
