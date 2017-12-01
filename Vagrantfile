@@ -43,6 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                "dev::install_rbenv",
                "dev::install_rubies",
                "fxn-docker::install",
+               "fxn-docker::docker-compose",
                "infra::node",
                "fxn-rancher::server",
                "fxn-rancher::agent"
@@ -63,7 +64,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "fxn-docker" => {
         "version" => "17.06.2~ce-0~ubuntu",
         "distribution"=> "xenial",
-        "options" => { "storage-driver" => "overlay", "storage-opts" => []}
+        "options" => { "storage-driver" => "overlay", "storage-opts" => []},
+        'docker_compose' => {
+            version: '1.17.1'
+        },
       },
 
       "rbenv" => {

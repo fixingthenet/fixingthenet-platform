@@ -26,7 +26,7 @@ node["rubies"]["versions"].each do |version|
     action :run
   end  
   bash "installing bundler: #{version["bundler"]}" do
-    code as_user(node["rubies"]["user"], "rbenv shell #{version["ruby"]} && gem install bundler -v #{version["bundler"]}")
+    code as_user(node["rubies"]["user"], "rbenv shell #{version["ruby"]} && gem install bundler --force -v #{version["bundler"]}")
     action :run
   end
 end
