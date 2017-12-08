@@ -29,6 +29,7 @@ module Fxnet
                        "--url #{ce.rancher.url}",
                        "--environment #{ce.rancher.environment}",
                        "up #{rancher_opts.join(' ')}",
+                       "--force-upgrade", 
                        "--stack #{stack_name} -d"].join(' ')
 
         puts bash_cmd.join(' && ')
