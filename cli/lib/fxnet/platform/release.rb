@@ -3,6 +3,9 @@ module Fxnet
   module Platform
     class Release
       def self.run(args, options, global_options)
+#        p args
+#        p options
+#        p global_options
         stack_name=args[0]
         service=options[:service]
         env = global_options[:environment]
@@ -17,10 +20,13 @@ module Fxnet
 
         stack_path=catalog.join('stacks',stack_name)
         rancher_opts=[]
-     
+        if options['service'] # this has to be #1
+          rancher_opts << options['service'].split(',').join(' ')
+        end
+        rancher_opts << '--confirm-upgrade' if options[:confirm]
         bash_cmd=["cd #{stack_path}"]
         
-        bash_cmd << "GLI_DEBUG=true ENV=#{env} orchparty generate rancher_v2 -f stack.rb -d docker-compose.yml -r rancher-compose.yml -a #{stack_name}"
+        bash_cmd << "GLI_DEBUG=true ENV=#{env} DEV_MODE=#{options[:dev]} orchparty generate rancher_v2 -f stack.rb -d docker-compose.yml -r rancher-compose.yml -a #{stack_name}"
         bash_cmd << "cp docker-compose.yml docker-compose-#{env}.yml"
         bash_cmd << "cp rancher-compose.yml rancher-compose-#{env}.yml"
         bash_cmd << ["rancher",
@@ -29,11 +35,16 @@ module Fxnet
                        "--url #{ce.rancher.url}",
                        "--environment #{ce.rancher.environment}",
                        "up #{rancher_opts.join(' ')}",
-                       "--force-upgrade", 
+                       "--force-upgrade",
                        "--stack #{stack_name} -d"].join(' ')
-
+        
         puts bash_cmd.join(' && ')
-        puts `#{bash_cmd.join(' && ')}`
+        if options[:test]
+          #
+        else  
+#           puts "damn"
+          puts `#{bash_cmd.join(' && ')}`
+        end  
 
       end
     end

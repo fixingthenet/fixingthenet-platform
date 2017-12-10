@@ -29,9 +29,13 @@ flag [:c,:config]
 
 desc 'deploy a stack or service'
 arg_name 'stack_name', :required
+
 command :deploy do |c|
   #c.desc 'Describe a switch to deploy'
-  #c.switch :s
+  c.switch :confirm
+  c.switch :test
+  c.switch :dev
+  c.flag :service
 
   c.action do |global_options,options,args|
     require_relative '../lib/fxnet/platform/release'
