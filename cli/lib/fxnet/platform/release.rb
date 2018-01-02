@@ -2,10 +2,9 @@ require 'pathname'
 module Fxnet
   module Platform
     class Release
+# args: stack_name
+# options: dev, service, confirm, test
       def self.run(args, options, global_options)
-#        p args
-#        p options
-#        p global_options
         stack_name=args[0]
         service=options[:service]
         env = global_options[:environment]
@@ -24,11 +23,14 @@ module Fxnet
           rancher_opts << options['service'].split(',').join(' ')
         end
         rancher_opts << '--confirm-upgrade' if options[:confirm]
-        bash_cmd=["cd #{stack_path}"]
+        bash_cmd_test=["cd #{stack_path}"]
+        bash_cmd=[]
         
-        bash_cmd << "GLI_DEBUG=true ENV=#{env} DEV_MODE=#{options[:dev]} orchparty generate rancher_v2 -f stack.rb -d docker-compose.yml -r rancher-compose.yml -a #{stack_name}"
-        bash_cmd << "cp docker-compose.yml docker-compose-#{env}.yml"
-        bash_cmd << "cp rancher-compose.yml rancher-compose-#{env}.yml"
+        bash_cmd_test << "GLI_DEBUG=true FXNET_ENV=#{env} DEV_MODE=#{!!options[:dev]} orchparty generate rancher_v2 -f stack.rb -d docker-compose.yml -r rancher-compose.yml -a #{stack_name}"
+        bash_cmd_test << "cp docker-compose.yml docker-compose-#{env}.yml"
+        bash_cmd_test << "cp rancher-compose.yml rancher-compose-#{env}.yml"
+        
+        
         bash_cmd << ["rancher",
                        "--access-key #{ce.rancher.access_key}",
                        "--secret-key #{ce.rancher.secret_key}",
@@ -37,14 +39,17 @@ module Fxnet
                        "up #{rancher_opts.join(' ')}",
                        "--force-upgrade",
                        "--stack #{stack_name} -d"].join(' ')
-        
-        puts bash_cmd.join(' && ')
+
+        full_cmd=(bash_cmd_test + bash_cmd).join(' && ')
+
         if options[:test]
-          #
+         cmd=bash_cmd_test.join(' && ')
         else  
-#           puts "damn"
-          puts `#{bash_cmd.join(' && ')}`
+         cmd=full_cmd
         end  
+
+        puts full_cmd
+        puts `#{cmd}`
 
       end
     end
